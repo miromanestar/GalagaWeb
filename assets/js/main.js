@@ -1,18 +1,58 @@
+var pSpeed = 5;
+
 function preload () {
     this.load.image('alien', 'assets/sprites/alien.png');
+    this.load.image('player', 'assets/sprites/player.png');
 }
 
 function create () {
-    aliens = this.physics.add.group({
+    player = this.physics.add.sprite(640, 650, 'player');
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(false);
+    player.setDisplaySize(100, 100);
+
+    var aliens = this.add.group({
         key: 'alien',
-        repeat: 25,
-        setXY: { x: 12, y: 0, stepX: 70 },
-        setDisplaySize: {x: 100, y: 100}
+        repeat: 5,
+        setXY: {
+            x: 110,
+            y: 100,
+            stepX: 80,
+            stepY: 20
+        },
     });
 
-    alien.children.iterate(function (child) {
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-    });
+    Phaser.Actions.ScaleXY(aliens.getChildren(), 0, 0);
+
+}
+
+function update() {
+    cursors = this.input.keyboard.createCursorKeys();
+
+    if (cursors.left.isDown) {
+        //player.setVelocityX(-500);
+        player.x -= pSpeed;
+
+    }
+    if (cursors.right.isDown) {
+        //player.setVelocityX(500);
+        player.x += pSpeed;
+    }
+    if (cursors.up.isDown && player.y > 500) {
+        //player.setVelocityY(-500);
+        player.y -= pSpeed;
+    }
+    if (cursors.down.isDown && player.y < 660) {
+        //player.setVelocityY(500);
+        player.y += pSpeed;
+    }
+
+    if(player.x < 0) {
+        player.x = 1280;
+    }
+    if(player.x > 1280) {
+        player.x = 0;
+    }
 }
 
 function createAlien() {
@@ -26,17 +66,18 @@ function createAlien() {
 
 var config = {
     type: Phaser.AUTO,
-    width: window.innerWidth * .95,
-    height: window.innerHeight * .95,
+    width: 1280,
+    height: 720,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }
+            gravity: { y: 0 }
         }
     },
     scene: {
         preload: preload,
         create: create,
+        update: update
     }
 };
 
