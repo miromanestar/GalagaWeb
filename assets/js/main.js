@@ -51,6 +51,10 @@ function update() {
     if(player.x > 1280) {
         player.x = 0;
     }
+
+    for (alien in this.aliens) {
+        alien.x += 5;
+    }
 }
 
 function createAlien() {
