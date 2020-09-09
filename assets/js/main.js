@@ -17,13 +17,11 @@ function create () {
         setXY: {
             x: 110,
             y: 100,
-            stepX: 80,
-            stepY: 20
+            stepX: 100,
+            stepY: 0
         },
+        setScale: { x: 0.1, y: 0.1}
     });
-
-    Phaser.Actions.ScaleXY(aliens.getChildren(), 0, 0);
-
 }
 
 function update() {
